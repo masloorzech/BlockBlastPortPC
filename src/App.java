@@ -31,7 +31,7 @@ public class App {
         BlockChoosePanel blockChoosePanelRight = new BlockChoosePanel(new Vector2f(screenCenter.x-mapWidth*pixelSize/2 + 6*pixelSize, screenCenter.y+mapHeight*pixelSize/2-pixelSize), new Vector2f(3,3),30);
         blockChoosePanelRight.setFrameColor(Color.white);
         blockChoosePanelRight.setBlockScalingFactor(0.90F);
-        Vector2f of = new Vector2f(screenCenter.x-mapWidth*pixelSize/2 + pixelSize*3, screenCenter.y-mapHeight*pixelSize/2 - 4* pixelSize);
+        Vector2f of = new Vector2f(screenCenter.x-mapWidth*pixelSize/2 + pixelSize*2.5f, screenCenter.y-mapHeight*pixelSize/2 - 4* pixelSize);
         TextPanel scoreTextPanel = new TextPanel("SCORE",new Vector2f(of.x,of.y-pixelSize),new Vector2f(pixelSize*3, pixelSize));
         scoreTextPanel.setTextSize(pixelSize/2);
         scoreTextPanel.setTextPosition("CENTER");
