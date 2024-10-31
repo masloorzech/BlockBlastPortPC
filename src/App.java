@@ -28,16 +28,21 @@ public class App {
         BlockChoosePanel blockChoosePanelRight = new BlockChoosePanel(new Vector2f(screenCenter.x-mapWidth*pixelSize/2 + 6*pixelSize, screenCenter.y+mapHeight*pixelSize/2-2*pixelSize), new Vector2f(4,4),30);
         blockChoosePanelRight.setFrameColor(Color.white);
         blockChoosePanelRight.setBlockScalingFactor(0.90F);
-        Vector2f of = new Vector2f(screenCenter.x-mapWidth*pixelSize/2, screenCenter.y-mapHeight*pixelSize/2 - 4* pixelSize);
-        TextPanel scorePanel = new TextPanel("Score: 0000",of,new Vector2f(pixelSize*4,pixelSize*2));
+        Vector2f of = new Vector2f(screenCenter.x-mapWidth*pixelSize/2 + pixelSize*3, screenCenter.y-mapHeight*pixelSize/2 - 4* pixelSize);
+        TextPanel scoreTextPanel = new TextPanel("SCORE",new Vector2f(of.x,of.y-pixelSize),new Vector2f(pixelSize*3, pixelSize));
+        scoreTextPanel.setTextSize(pixelSize/2);
+        scoreTextPanel.setTextPosition("CENTER");
+        TextPanel scorePanel = new TextPanel("000000",of,new Vector2f(pixelSize*3,pixelSize));
         scorePanel.setTextSize(pixelSize/2);
         scorePanel.setTextPosition("CENTER");
+
         GuiPanel mapPanel = new GuiPanel(map);
         mapPanel.setGradientColor(new Color(26, 79, 90));
         mapPanel.setBackgroundColor(new Color(81, 139, 147));
         mapPanel.addPanel(blockChoosePanelLeft);
         mapPanel.addPanel(blockChoosePanelCenter);
         mapPanel.addPanel(blockChoosePanelRight);
+        mapPanel.addTextPanel(scoreTextPanel);
         mapPanel.addTextPanel(scorePanel);
         mapPanel.setBounds(0, 0, width, height);
         mainWindow.setLayout(null);

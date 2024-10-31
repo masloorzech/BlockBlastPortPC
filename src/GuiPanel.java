@@ -175,8 +175,8 @@ public class GuiPanel extends JPanel{
                     }
                     if (!toVanish.isEmpty()) {
                         points += 10 * toVanish.size();
-                        String text = "Score: " + "0".repeat(Math.max(0, 4 - Integer.toString(points).length())) + points;
-                        textsPanels.elementAt(0).changeText(text);
+                        String text =  "0".repeat(Math.max(0, 6 - Integer.toString(points).length())) + points;
+                        textsPanels.elementAt(1).changeText(text);
                     }
                     clearRowsAndColumns(toVanish);
 
