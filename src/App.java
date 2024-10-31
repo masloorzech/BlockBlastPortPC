@@ -18,9 +18,10 @@ public class App {
         mainWindow.setResizable(false);
         Vector2f screenCenter = new Vector2f(width/2, height/2);
         Map map = new Map(new Vector2f(screenCenter.x-mapWidth*pixelSize/2, screenCenter.y-mapHeight*pixelSize/2 - 2* pixelSize),mapWidth, mapHeight,pixelSize);
-        map.setFrameColors(Color.black,Color.red);
+        map.setFrameColors(new Color(87, 146, 183),new Color(75, 126, 159));
         map.setBackgroundColor(new Color(87, 146, 183));
-        map.setStrokes(8,4);
+        map.setStrokes(10,4);
+        map.setGridColor(new Color(100, 174, 224));
         BlockChoosePanel blockChoosePanelLeft = new BlockChoosePanel(new Vector2f(screenCenter.x-mapWidth*pixelSize/2, screenCenter.y+mapHeight*pixelSize/2-2*pixelSize), new Vector2f(4,4),30);
         blockChoosePanelLeft.setFrameColor(Color.white);
         blockChoosePanelLeft.setBlockScalingFactor(0.90F);

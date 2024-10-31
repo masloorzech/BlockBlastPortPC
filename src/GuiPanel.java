@@ -26,8 +26,10 @@ public class GuiPanel extends JPanel{
     private Color gradientColor;
     private Color backgroundColor;
     Vector<Vector2f> potentialToVanish=new Vector<>();
+    boolean firstStart = false;
 
-    private final Vector<Vector2f> potentialIndexes = new Vector<>();
+
+  private final Vector<Vector2f> potentialIndexes = new Vector<>();
 
     boolean isMouseInsidePanel(Vector2f mousePosition, BlockChoosePanel panel) {
         return mousePosition.x >= panel.offset.x && mousePosition.x <= panel.offset.x + panel.size.x * blockChoosePanels.getFirst().pixelSize
@@ -288,8 +290,11 @@ public class GuiPanel extends JPanel{
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-      var oldStroke = g2.getStroke();
+        if (firstStart){
+          g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+          firstStart = true;
+        }
+        var oldStroke = g2.getStroke();
         if (gradientColor != null) {
             Graphics2D g2d = (Graphics2D) g;
             GradientPaint gradientPaint = new GradientPaint(0, 0, backgroundColor, 0, getHeight(), gradientColor);
