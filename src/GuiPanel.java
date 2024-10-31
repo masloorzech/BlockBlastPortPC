@@ -27,9 +27,7 @@ public class GuiPanel extends JPanel{
     private Color backgroundColor;
     Vector<Vector2f> potentialToVanish=new Vector<>();
     boolean firstStart = false;
-
-
-  private final Vector<Vector2f> potentialIndexes = new Vector<>();
+    private final Vector<Vector2f> potentialIndexes = new Vector<>();
 
     boolean isMouseInsidePanel(Vector2f mousePosition, BlockChoosePanel panel) {
         return mousePosition.x >= panel.offset.x && mousePosition.x <= panel.offset.x + panel.size.x * blockChoosePanels.getFirst().pixelSize

@@ -41,7 +41,6 @@ public class Map{
     public Vector2f getDrawingSize(){
         return new Vector2f(width*pixelSize,height*pixelSize);
     }
-
     private void paintInsideOfBlock(Graphics g, int x, int y,Color color){
         int divieder = 2*pixelSize/10-2 ;
         int offset = pixelSize/divieder*2;
@@ -63,8 +62,6 @@ public class Map{
         g.setColor(color.darker());
         g.fillRect(x+ pixelSize /divieder,y+pixelSize/divieder,pixelSize-offset,pixelSize-offset);
     }
-
-
     void paint(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
         var previousColor = g2d.getColor();

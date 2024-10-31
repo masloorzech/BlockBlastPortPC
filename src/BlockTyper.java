@@ -9,19 +9,16 @@ public enum BlockTyper {
     J(new boolean[][]{
             {true, false, false},
             {true, true, true},
-            {false, false, false}
     }, Color.BLUE),
 
     L(new boolean[][]{
             {false, false, true},
             {true, true, true},
-            {false, false, false}
     }, Color.ORANGE),
 
     O(new boolean[][]{
-            {false,true, true},
-            {false,true, true},
-            {false,false, false}
+            {true, true},
+            {true, true},
     }, Color.YELLOW),
 
     S(new boolean[][]{
@@ -53,11 +50,9 @@ public enum BlockTyper {
     U(new boolean[][]{
             {true, false, true},
             {true, true, true},
-            {false, false, false}
     },new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
 
     A(new boolean[][]{
-            {false, false, false},
         {true, true, true},
         {true, false, true},
     }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
@@ -69,7 +64,6 @@ public enum BlockTyper {
     STAIRS(new boolean[][]{
         {true, false,false},
         {false, true,false},
-        {false, false,false},
     }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
 
     LARGSTAIRS(new boolean[][]{
