@@ -1,19 +1,19 @@
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Random;
-
-import static java.lang.Math.ceil;
-import static java.lang.Math.floor;
 
 public class Map{
     Vector2f offset;
     int width;
     int height;
     boolean[][] mapRepresentation;
-    Vector2f[][] mapCellsCenterCoordinates;
     int pixelSize;
     Color frameColor;
+    int frameStroke = 1;
+    Color insideFrameColor;
+    int insideFrameStroke = 1;
+    private Color backgroundColor = new Color(255, 255, 255, 0);
     Color blockColor = new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255));
+    boolean firstStart = false;
 
     public Map(Vector2f offset,int w,int h,int pixelSize){
         this.offset = offset;
@@ -21,22 +21,19 @@ public class Map{
         height = h;
         this.pixelSize = pixelSize;
         mapRepresentation = new boolean[width][height];
-        mapCellsCenterCoordinates= new Vector2f[width][height];
-        Vector2f coordinates = new Vector2f();
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                mapCellsCenterCoordinates[i][j] = new Vector2f(
-                        offset.x + i * pixelSize / 2,
-                        offset.y + j * pixelSize / 2
-                );
-            }
-        }
     }
-    void setFrameColor(Color frameColor){
+
+    void setBackgroundColor(Color color){
+      backgroundColor = color;
+    }
+    void setFrameColors(Color frameColor,Color insideFrameColor){
         this.frameColor = frameColor;
+        this.insideFrameColor = insideFrameColor;
     }
-
+    void setStrokes(int frameStroke, int insideFrameStroke){
+      this.frameStroke = frameStroke;
+      this.insideFrameStroke = insideFrameStroke;
+    }
     public Vector2f getDrawingSize(){
         return new Vector2f(width*pixelSize,height*pixelSize);
     }
@@ -64,6 +61,23 @@ public class Map{
 
 
     void paint(Graphics g){
+
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        if (firstStart){
+          g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+          firstStart = true;
+        }
+        var previousColor = g2d.getColor();
+        var previousStroke = g2d.getStroke();
+        g2d.setColor(frameColor);
+        g2d.setStroke(new BasicStroke(this.frameStroke));
+        g2d.drawRoundRect((int) (offset.x-this.frameStroke), (int) (offset.y-this.frameStroke),width*pixelSize+this.frameStroke*2,height*pixelSize+this.frameStroke*2,pixelSize/5,pixelSize/5);
+        g2d.setStroke(previousStroke);
+        g2d.setColor(backgroundColor);
+        g2d.fillRect((int) offset.x, (int) offset.y,width*pixelSize,height*pixelSize);
+        g2d.setColor(previousColor);
         for (int i=0; i<width; i++){
             for (int j=0; j<height; j++){
                 if (mapRepresentation[i][j]){
@@ -76,6 +90,11 @@ public class Map{
 
             }
         }
+
+        g2d.setColor(insideFrameColor);
+        g2d.setStroke(new BasicStroke(this.insideFrameStroke));
+        g2d.drawRoundRect((int) (offset.x), (int) (offset.y),width*pixelSize+this.insideFrameStroke,height*pixelSize+this.insideFrameStroke,pixelSize/5,pixelSize/5);
+        g2d.setColor(previousColor);
     }
 
 }

@@ -288,7 +288,8 @@ public class GuiPanel extends JPanel{
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        var oldStroke = g2.getStroke();
+        //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+      var oldStroke = g2.getStroke();
         if (gradientColor != null) {
             Graphics2D g2d = (Graphics2D) g;
             GradientPaint gradientPaint = new GradientPaint(0, 0, backgroundColor, 0, getHeight(), gradientColor);
