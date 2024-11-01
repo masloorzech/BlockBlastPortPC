@@ -4,7 +4,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.Vector;
 
 import static java.lang.Thread.sleep;
@@ -30,24 +29,6 @@ public class GuiPanel extends JPanel{
     private final Vector<Vector2f> potentialIndexes = new Vector<>();
     Color potentialColor = new Color(0,0,0);
 
-    boolean isMouseInsidePanel(Vector2f mousePosition, BlockChoosePanel panel) {
-        return mousePosition.x >= panel.offset.x && mousePosition.x <= panel.offset.x + panel.size.x * blockChoosePanels.getFirst().pixelSize
-                && mousePosition.y >= panel.offset.y && mousePosition.y <= panel.offset.y + panel.size.y * blockChoosePanels.getFirst().pixelSize;
-    }
-    Vector2f getIndexesOfMapWhileHoldingBlock(Vector2f mousePosition) {
-        for (int i = 0; i < map.width; i++) {
-            for (int j = 0; j < map.height; j++) {
-                float mapLeftPixelWallX = map.offset.x+pixelSize*i;
-                float mapTopPixelWallY = map.offset.y+pixelSize*j;
-                float mapRighttPixelWallX = map.offset.x+(i+1)* pixelSize;
-                float mapDownPixelWallY =  map.offset.y+(j+1)* pixelSize;
-                if (mousePosition.x>=mapLeftPixelWallX && mousePosition.x <= mapRighttPixelWallX && mousePosition.y>=mapTopPixelWallY && mousePosition.y <= mapDownPixelWallY){
-                    return new Vector2f(i,j);
-                }
-            }
-        }
-        return null;
-    }
     public GuiPanel(Map map){
         this.map = map;
         blockChoosePanels = new Vector<>();
@@ -100,6 +81,7 @@ public class GuiPanel extends JPanel{
                                 break;
                             }
                         }
+                      placed= !potentialIndexes.isEmpty();
                         showBlockShadow = true;
                     }
                     boolean[][] tempMap = new boolean[map.width][map.height];
@@ -114,13 +96,13 @@ public class GuiPanel extends JPanel{
                     }
                     potentialToVanish = new Vector<>();
                     for (int i = 0; i < tempMap.length; i++) {
-                        if (isFullRowInMap(i, tempMap)) {
+                        if (isFullRowInMapBooleanRepresentation(i, tempMap)) {
                             potentialToVanish.add(new Vector2f(0, i));
                         }
                     }
 
                     for (int j = 0; j < tempMap[0].length; j++) {
-                        if (isFullColumnInMap(j, tempMap)) {
+                        if (isFullColumnInMapBooleanRepresentation(j, tempMap)) {
                             potentialToVanish.add(new Vector2f(1, j));
                         }
                     }
@@ -151,12 +133,13 @@ public class GuiPanel extends JPanel{
                 repaint();
             }
             public void mouseReleased(MouseEvent e) {
+              isMousePressed = false;
+              showBlockShadow = false;
                 if (!gameOver) {
-                  isMousePressed = false;
-                  showBlockShadow = false;
                   repaint();
                   for (BlockChoosePanel panel : blockChoosePanels) {
-                    if (panel.moving && indexes != null && indexes.length() !=0  && !potentialIndexes.isEmpty()) {
+                    if (panel.moving && indexes != null && indexes.length() !=0  && !potentialIndexes.isEmpty() && placed) {
+                      System.out.println(panel.moving + " " + indexes + " " + potentialIndexes);
                       panel.drawRandomBlokc();
                       for (BlockChoosePanel checkingPanel : blockChoosePanels) {
                         if (panel.block == checkingPanel.block) {
@@ -223,6 +206,24 @@ public class GuiPanel extends JPanel{
             }
         });
     }
+    Vector2f getIndexesOfMapWhileHoldingBlock(Vector2f mousePosition) {
+    for (int i = 0; i < map.width; i++) {
+      for (int j = 0; j < map.height; j++) {
+        float mapLeftPixelWallX = map.offset.x+pixelSize*i;
+        float mapTopPixelWallY = map.offset.y+pixelSize*j;
+        float mapRighttPixelWallX = map.offset.x+(i+1)* pixelSize;
+        float mapDownPixelWallY =  map.offset.y+(j+1)* pixelSize;
+        if (mousePosition.x>=mapLeftPixelWallX && mousePosition.x <= mapRighttPixelWallX && mousePosition.y>=mapTopPixelWallY && mousePosition.y <= mapDownPixelWallY){
+          return new Vector2f(i,j);
+        }
+      }
+    }
+    return null;
+  }
+    boolean isMouseInsidePanel(Vector2f mousePosition, BlockChoosePanel panel) {
+    return mousePosition.x >= panel.offset.x && mousePosition.x <= panel.offset.x + panel.size.x * blockChoosePanels.getFirst().pixelSize
+      && mousePosition.y >= panel.offset.y && mousePosition.y <= panel.offset.y + panel.size.y * blockChoosePanels.getFirst().pixelSize;
+  }
     private boolean canPlaceAnyBlock() {
         for (BlockChoosePanel panel : blockChoosePanels) {
             Block block = panel.block;
@@ -251,13 +252,13 @@ public class GuiPanel extends JPanel{
         }
         return true;
     }
-    private boolean isFullRowInMap(int row, boolean[][] tempMap) {
+    private boolean isFullRowInMapBooleanRepresentation(int row, boolean[][] tempMap) {
         for (int j = 0; j < tempMap[0].length; j++) {
             if (!tempMap[row][j]) return false;
         }
         return true;
     }
-    private boolean isFullColumnInMap(int col, boolean[][] tempMap) {
+    private boolean isFullColumnInMapBooleanRepresentation(int col, boolean[][] tempMap) {
         for (boolean[] booleans : tempMap) {
             if (!booleans[col]) return false;
         }
@@ -282,17 +283,23 @@ public class GuiPanel extends JPanel{
         return true;
     }
     private void clearRowsAndColumns(Vector<Vector2f> toVanish) {
+      int k =0;
         for (var toVanishItem : toVanish) {
             int index = (int) toVanishItem.y;
             if (toVanishItem.x == 0) {
               for (int i=0; i<map.mapRepresentation[0].length; i++) {
                 map.mapRepresentation[index][i].value = false;
+                k++;
               }
             } else if (toVanishItem.x == 1) {
                 for (int i = 0; i < map.mapRepresentation.length; i++) {
                     map.mapRepresentation[i][index].value = false;
+                    k++;
                 }
             }
+        }
+        if (k!=0){
+          potentialIndexes.clear();
         }
         potentialToVanish.clear();
     }
