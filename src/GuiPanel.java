@@ -9,7 +9,6 @@ import java.util.Vector;
 
 import static java.lang.Thread.sleep;
 
-
 public class GuiPanel extends JPanel{
     boolean debug = true;
     int pixelSize = 40;
@@ -187,7 +186,7 @@ public class GuiPanel extends JPanel{
                     }
                     if (!toVanish.isEmpty()) {
                         points += 10 * toVanish.size();
-                        String text =  "0".repeat(Math.max(0, 6 - Integer.toString(points).length())) + points;
+                        String text =  ""+ points;
                         textsPanels.elementAt(1).changeText(text);
                     }
                     clearRowsAndColumns(toVanish);

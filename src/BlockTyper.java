@@ -2,8 +2,33 @@ import java.awt.*;
 import java.util.Random;
 
 public enum BlockTyper {
+
+    IS(new boolean[][]{
+      {true, true, true}
+    }, Color.CYAN),
+
+    IS1(new boolean[][]{
+      {true, true, true}
+    }, Color.CYAN),
+
+    IS2(new boolean[][]{
+      {true, true, true}
+    }, Color.CYAN),
+
     I(new boolean[][]{
             {true, true, true, true}
+    }, Color.CYAN),
+
+    IL(new boolean[][]{
+      {true, true, true, true,true}
+    }, Color.CYAN),
+
+    IL1(new boolean[][]{
+      {true, true, true, true,true}
+    }, Color.CYAN),
+
+    IL2(new boolean[][]{
+      {true, true, true, true,true}
     }, Color.CYAN),
 
     J(new boolean[][]{
@@ -20,6 +45,11 @@ public enum BlockTyper {
             {true, true},
             {true, true},
     }, Color.YELLOW),
+
+  OL(new boolean[][]{
+    {true, true,true},
+    {true, true,true},
+  }, Color.YELLOW),
 
     S(new boolean[][]{
             {false, true, true},
@@ -45,43 +75,43 @@ public enum BlockTyper {
             {true, true, true},
             {true, true, true},
             {true, true, true}
-    }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
+    }, new Color(30+new Random().nextInt(225),30+new Random().nextInt(225),30+new Random().nextInt(225))),
 
-    U(new boolean[][]{
+  U(new boolean[][]{
             {true, false, true},
             {true, true, true},
-    },new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
+    },new Color(30+new Random().nextInt(225),30+new Random().nextInt(225),30+new Random().nextInt(225))),
 
-    A(new boolean[][]{
+  A(new boolean[][]{
         {true, true, true},
         {true, false, true},
-    }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
+    }, new Color(30+new Random().nextInt(225),30+new Random().nextInt(225),30+new Random().nextInt(225))),
 
-    QUBE(new boolean[][]{
+  QUBE(new boolean[][]{
         {true}
-    }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
+    }, new Color(30+new Random().nextInt(225),30+new Random().nextInt(225),30+new Random().nextInt(225))),
 
-    STAIRS(new boolean[][]{
+  STAIRS(new boolean[][]{
         {true, false,false},
         {false, true,false},
-    }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
+    },new Color(30+new Random().nextInt(225),30+new Random().nextInt(225),30+new Random().nextInt(225))),
 
-    LARGSTAIRS(new boolean[][]{
+  LARGSTAIRS(new boolean[][]{
             {true, false,false},
             {false, true,false},
             {false,false,true}
-    }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
+    }, new Color(30+new Random().nextInt(225),30+new Random().nextInt(225),30+new Random().nextInt(225))),
 
-    SHORTI(new boolean[][]{
+  SHORTI(new boolean[][]{
             {true},
             {true},
-    }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255))),
+    }, new Color(30+new Random().nextInt(225),30+new Random().nextInt(225),30+new Random().nextInt(225))),
 
-    STAR(new boolean[][]{
+  STAR(new boolean[][]{
         {false,true,false},
         {true,true,true},
             {false,true,false},
-    }, new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255)));
+    }, new Color(30+new Random().nextInt(225),30+new Random().nextInt(225),30+new Random().nextInt(225)));
 
     private final boolean[][] shape;
     private final Color color;

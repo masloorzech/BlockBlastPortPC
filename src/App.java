@@ -35,7 +35,7 @@ public class App {
         TextPanel scoreTextPanel = new TextPanel("SCORE",new Vector2f(of.x,of.y-pixelSize),new Vector2f(pixelSize*3, pixelSize));
         scoreTextPanel.setTextSize(pixelSize/2);
         scoreTextPanel.setTextPosition("CENTER");
-        TextPanel scorePanel = new TextPanel("000000",of,new Vector2f(pixelSize*3,pixelSize));
+        TextPanel scorePanel = new TextPanel("0",of,new Vector2f(pixelSize*3,pixelSize));
         scorePanel.setTextSize(pixelSize/2);
         scorePanel.setTextPosition("CENTER");
 
