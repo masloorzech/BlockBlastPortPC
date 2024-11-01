@@ -158,14 +158,9 @@ public class GuiPanel extends JPanel{
                   repaint();
                   for (BlockChoosePanel panel : blockChoosePanels) {
                     if (panel.moving && indexes != null && indexes.length() !=0  && !potentialIndexes.isEmpty()) {
-                      System.out.println(indexes);
-                      System.out.println(potentialIndexes);
-                      System.out.println("1");
                       panel.drawRandomBlokc();
                       for (BlockChoosePanel checkingPanel : blockChoosePanels) {
                         if (panel.block == checkingPanel.block) {
-                          System.out.println("2");
-
                           panel.drawRandomBlokc();
                         }
                       }
