@@ -1,11 +1,21 @@
 import java.awt.*;
 import java.util.Random;
 
+class MapCell{
+  Color cellColor = new Color(255, 255, 255, 0);
+  boolean value = false;
+
+  public MapCell(){
+    cellColor = new Color(255, 255, 255, 0);
+    value = false;
+  }
+}
+
 public class Map{
     Vector2f offset;
     int width;
     int height;
-    boolean[][] mapRepresentation;
+    MapCell[][] mapRepresentation;
     int pixelSize;
     Color gridColor = Color.WHITE;
     Color frameColor;
@@ -20,7 +30,12 @@ public class Map{
         width = w;
         height = h;
         this.pixelSize = pixelSize;
-        mapRepresentation = new boolean[width][height];
+        mapRepresentation = new MapCell[width][height];
+        for (int x = 0; x < width; x++){
+          for (int y = 0; y < height; y++){
+            mapRepresentation[x][y] = new MapCell();
+          }
+        }
     }
 
     void setGridColor(Color gridColor){
@@ -75,10 +90,10 @@ public class Map{
         g2d.setColor(previousColor);
         for (int i=0; i<width; i++){
             for (int j=0; j<height; j++){
-                if (mapRepresentation[i][j]){
-                    g.setColor(blockColor);
+                if (mapRepresentation[i][j].value){
+                    g.setColor(mapRepresentation[i][j].cellColor);
                     g.fillRect((int)offset.x+ i*pixelSize, (int)offset.y +j*pixelSize,pixelSize,pixelSize);
-                    paintInsideOfBlock(g, (int)offset.x + i*pixelSize, (int)offset.y +j*pixelSize, blockColor);
+                    paintInsideOfBlock(g, (int)offset.x + i*pixelSize, (int)offset.y +j*pixelSize, mapRepresentation[i][j].cellColor);
                 }
                 g.setColor(gridColor);
                 g.drawRoundRect((int)offset.x + i*pixelSize, (int)offset.y +j*pixelSize,pixelSize,pixelSize,pixelSize/5,pixelSize/5);

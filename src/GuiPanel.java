@@ -21,6 +21,7 @@ public class GuiPanel extends JPanel{
     private boolean isMousePressed =false;
     private boolean showBlockShadow = false;
     public boolean gameOver = false;
+    public boolean placed = false;
     Vector2f indexes;
     int points =0;
     private Color gradientColor;
@@ -28,6 +29,7 @@ public class GuiPanel extends JPanel{
     Vector<Vector2f> potentialToVanish=new Vector<>();
     boolean firstStart = false;
     private final Vector<Vector2f> potentialIndexes = new Vector<>();
+    Color potentialColor = new Color(0,0,0);
 
     boolean isMouseInsidePanel(Vector2f mousePosition, BlockChoosePanel panel) {
         return mousePosition.x >= panel.offset.x && mousePosition.x <= panel.offset.x + panel.size.x * blockChoosePanels.getFirst().pixelSize
@@ -94,7 +96,7 @@ public class GuiPanel extends JPanel{
                         }
                         for (var positions : potentialIndexes) {
                             if (positions.x < 0 || positions.x >= map.width || positions.y < 0 || positions.y >= map.height
-                                    || map.mapRepresentation[(int) positions.x][(int) positions.y]) {
+                                    || map.mapRepresentation[(int) positions.x][(int) positions.y].value) {
                                 potentialIndexes.clear();
                                 break;
                             }
@@ -102,8 +104,11 @@ public class GuiPanel extends JPanel{
                         showBlockShadow = true;
                     }
                     boolean[][] tempMap = new boolean[map.width][map.height];
-                    for (int i = 0; i < map.mapRepresentation.length; i++) {
-                        System.arraycopy(map.mapRepresentation[i], 0, tempMap[i], 0, map.mapRepresentation[i].length);
+
+                    for (int i = 0; i < tempMap.length; i++) {
+                      for (int j = 0; j < tempMap[i].length; j++) {
+                        tempMap[i][j] = map.mapRepresentation[i][j].value;
+                      }
                     }
                     for (var position : potentialIndexes) {
                         tempMap[(int) position.x][(int) position.y] = true;
@@ -120,6 +125,11 @@ public class GuiPanel extends JPanel{
                             potentialToVanish.add(new Vector2f(1, j));
                         }
                     }
+                }
+                if (!potentialIndexes.isEmpty()){
+                  if (movingBlock != null) {
+                    potentialColor = movingBlock.getColor();
+                  }
                 }
                 repaint();
             }
@@ -143,22 +153,29 @@ public class GuiPanel extends JPanel{
             }
             public void mouseReleased(MouseEvent e) {
                 if (!gameOver) {
-                    isMousePressed = false;
-                    showBlockShadow = false;
-                    repaint();
-                    for (BlockChoosePanel panel : blockChoosePanels) {
-                        if (panel.moving && indexes != null && !potentialIndexes.isEmpty()) {
-                            panel.drawRandomBlokc();
-                            for (BlockChoosePanel checkingPanel : blockChoosePanels) {
-                                if (panel.block == checkingPanel.block) {
-                                    panel.drawRandomBlokc();
-                                }
-                            }
+                  isMousePressed = false;
+                  showBlockShadow = false;
+                  repaint();
+                  for (BlockChoosePanel panel : blockChoosePanels) {
+                    if (panel.moving && indexes != null && indexes.length() !=0  && !potentialIndexes.isEmpty()) {
+                      System.out.println(indexes);
+                      System.out.println(potentialIndexes);
+                      System.out.println("1");
+                      panel.drawRandomBlokc();
+                      for (BlockChoosePanel checkingPanel : blockChoosePanels) {
+                        if (panel.block == checkingPanel.block) {
+                          System.out.println("2");
+
+                          panel.drawRandomBlokc();
                         }
-                        panel.moving = false;
+                      }
+                      placed = false;
                     }
+                    panel.moving = false;
+                  }
                     for (var position : potentialIndexes) {
-                        map.mapRepresentation[(int) position.x][(int) position.y] = true;
+                      map.mapRepresentation[(int) position.x][(int) position.y].value = true;
+                      map.mapRepresentation[(int) position.x][(int) position.y].cellColor = potentialColor;
                     }
 
                     movingBlock = null;
@@ -185,7 +202,12 @@ public class GuiPanel extends JPanel{
                     }
                 }
                 if (gameOver) {
-                    map.mapRepresentation = new boolean[map.width][map.height];
+                    for (var row : map.mapRepresentation) {
+                      for (var cell : row) {
+                        cell.value = false;
+                        cell.cellColor = new Color(255, 255, 255, 0);
+                      }
+                    }
                     for (var panel : blockChoosePanels) {
                         panel.drawRandomBlokc();
                     }
@@ -227,7 +249,7 @@ public class GuiPanel extends JPanel{
                 if (block.getShape()[i][j]) {
                     int mapX = (int) position.x + i - block.getShape().length / 2;
                     int mapY = (int) position.y + j - block.getShape()[0].length / 2;
-                    if (mapX < 0 || mapX >= map.width || mapY < 0 || mapY >= map.height || map.mapRepresentation[mapX][mapY]) {
+                    if (mapX < 0 || mapX >= map.width || mapY < 0 || mapY >= map.height || map.mapRepresentation[mapX][mapY].value) {
                         return false;
                     }
                 }
@@ -255,13 +277,13 @@ public class GuiPanel extends JPanel{
     }
     private boolean isFullRow(int row) {
         for (int j = 0; j < map.mapRepresentation[0].length; j++) {
-            if (!map.mapRepresentation[row][j]) return false;
+            if (!map.mapRepresentation[row][j].value) return false;
         }
         return true;
     }
     private boolean isFullColumn(int col) {
         for (int i = 0; i < map.mapRepresentation.length; i++) {
-            if (!map.mapRepresentation[i][col]) return false;
+            if (!map.mapRepresentation[i][col].value) return false;
         }
         return true;
     }
@@ -269,10 +291,12 @@ public class GuiPanel extends JPanel{
         for (var toVanishItem : toVanish) {
             int index = (int) toVanishItem.y;
             if (toVanishItem.x == 0) {
-                Arrays.fill(map.mapRepresentation[index], false);
+              for (int i=0; i<map.mapRepresentation[0].length; i++) {
+                map.mapRepresentation[index][i].value = false;
+              }
             } else if (toVanishItem.x == 1) {
                 for (int i = 0; i < map.mapRepresentation.length; i++) {
-                    map.mapRepresentation[i][index] = false;
+                    map.mapRepresentation[i][index].value = false;
                 }
             }
         }

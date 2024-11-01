@@ -1,7 +1,6 @@
 import java.awt.*;
 
 public class BlockChoosePanel{
-
     Vector2f offset;
     Vector2f size;
     Vector2f blockPosition;
