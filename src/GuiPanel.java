@@ -15,11 +15,15 @@ public class GuiPanel extends JPanel{
     private Block movingBlock = null;
     private final Vector<BlockChoosePanel> blockChoosePanels;
     private final Vector<TextPanel> textsPanels;
+    private final Vector<PulsingAnimation> pulsingAnimations;
     private Vector2f mousePosition;
     private boolean isMousePressed =false;
     private boolean showBlockShadow = false;
     public boolean gameOver = false;
     public boolean placed = false;
+    public boolean combo = false;
+    int comboCounter =0;
+    int comboDownCounter = 4;
     Vector2f indexes;
     int points =0;
     private Color gradientColor;
@@ -33,6 +37,7 @@ public class GuiPanel extends JPanel{
         this.map = map;
         blockChoosePanels = new Vector<>();
         textsPanels = new Vector<>();
+        pulsingAnimations = new Vector<>();
         setFocusable(true);
         requestFocusInWindow();
         addMouseMotionListener(new MouseAdapter() {
@@ -139,7 +144,6 @@ public class GuiPanel extends JPanel{
                   repaint();
                   for (BlockChoosePanel panel : blockChoosePanels) {
                     if (panel.moving && indexes != null && indexes.length() !=0  && !potentialIndexes.isEmpty() && placed) {
-                      System.out.println(panel.moving + " " + indexes + " " + potentialIndexes);
                       panel.drawRandomBlokc();
                       for (BlockChoosePanel checkingPanel : blockChoosePanels) {
                         if (panel.block == checkingPanel.block) {
@@ -309,6 +313,9 @@ public class GuiPanel extends JPanel{
     public void addTextPanel(TextPanel panel){
         textsPanels.add(panel);
     }
+    public void addPulsingAnimations(PulsingAnimation animation){
+      pulsingAnimations.add(animation);
+    }
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -325,13 +332,18 @@ public class GuiPanel extends JPanel{
             g2d.fillRect(0, 0, getWidth(), getHeight());
         }
         map.paint(g);
-        for (var panels: textsPanels){
-            panels.paint(g);
-        }
         for (var panels : blockChoosePanels) {
                 panels.paint(g);
         }
-        if (!potentialToVanish.isEmpty()) {
+        for (var panels : pulsingAnimations) {
+          if (combo) {
+            panels.paint(g);
+          }
+        }
+        for (var panels: textsPanels){
+        panels.paint(g);
+      }
+      if (!potentialToVanish.isEmpty()) {
             for (var indexes : potentialToVanish) {
                 Color before = g.getColor();
                 g.setColor(new Color(255, 177, 22, 119));
@@ -356,7 +368,6 @@ public class GuiPanel extends JPanel{
                 g.setColor(c);
             }
         }
-
         if (movingBlock != null && isMousePressed) {
             movingBlock.setPixelSize(pixelSize);
             Vector2f pivot = movingBlock.getBlockCenter();

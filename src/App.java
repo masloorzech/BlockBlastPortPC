@@ -38,6 +38,9 @@ public class App {
         TextPanel scorePanel = new TextPanel("0",of,new Vector2f(pixelSize*3,pixelSize));
         scorePanel.setTextSize(pixelSize/2);
         scorePanel.setTextPosition("CENTER");
+        var img =new ImageIcon("./res/star.png").getImage();
+        Vector2f of2 = new Vector2f(screenCenter.x- pixelSize-1, of.y);
+        PulsingAnimation animation = new PulsingAnimation(of2,new Vector2f(pixelSize*2,pixelSize),img,1.0f);
 
         GuiPanel mapPanel = new GuiPanel(map);
         mapPanel.setGradientColor(new Color(75, 126, 159));
@@ -47,6 +50,7 @@ public class App {
         mapPanel.addPanel(blockChoosePanelRight);
         mapPanel.addTextPanel(scoreTextPanel);
         mapPanel.addTextPanel(scorePanel);
+        mapPanel.addPulsingAnimations(animation);
         mapPanel.setBounds(0, 0, width, height);
         mainWindow.setLayout(null);
 

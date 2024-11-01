@@ -13,7 +13,6 @@ public class TextPanel{
     String textPosition="";
     int fontSize =12;
 
-
     public TextPanel(String text , Vector2f offset, Vector2f size){
         this.text = text;
         this.offset = offset;
@@ -48,16 +47,12 @@ public class TextPanel{
         textOffset.x = offset.x + (size.x - textWidth) / 2;
         textOffset.y = offset.y + (size.y + textHeight) / 2;
     }
-
-
     public void changeTextColor(Color color){
         textColor = color;
     }
-
     public void setPixelSize(int pixelSize){
         this.pixelSize = pixelSize;
     }
-
     public void showFrame(){
         this.showFrame = true;
     }
