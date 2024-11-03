@@ -1,12 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.Vector;
-
-import static java.lang.Thread.sleep;
+import javax.swing.Timer;
 
 public class GuiPanel extends JPanel{
     boolean debug = false;
@@ -29,6 +25,8 @@ public class GuiPanel extends JPanel{
     boolean firstStart = false;
     private final Vector<Vector2f> potentialIndexes = new Vector<>();
     Color potentialColor = new Color(0,0,0);
+    Timer pointsTimer;
+    int targetPoints = 0;
 
     public GuiPanel(Map map){
         this.map = map;
@@ -140,7 +138,6 @@ public class GuiPanel extends JPanel{
                   repaint();
                   for (BlockChoosePanel panel : blockChoosePanels) {
                     if (panel.moving && indexes != null && indexes.length() !=0  && !potentialIndexes.isEmpty() && placed) {
-                      System.out.println(panel.moving + " " + indexes + " " + potentialIndexes);
                       panel.drawRandomBlokc();
                       for (BlockChoosePanel checkingPanel : blockChoosePanels) {
                         if (panel.block == checkingPanel.block) {
@@ -169,12 +166,25 @@ public class GuiPanel extends JPanel{
                         }
                     }
                     if (!toVanish.isEmpty()) {
-                        points += 10 * toVanish.size();
-                        String text =  ""+ points;
-                        textsPanels.elementAt(1).changeText(text);
+                      targetPoints = points + 10 * toVanish.size();
+                      pointsTimer = new Timer(10, new ActionListener() {
+                        private int currentPoints = points;
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                          if (currentPoints < targetPoints) {
+                            currentPoints++;
+                            textsPanels.elementAt(1).changeText("" + currentPoints); // Zaktualizuj wyświetlaną wartość punktów
+                            repaint();
+                          } else {
+                            points = targetPoints; // Ustaw końcową wartość punktów
+                            pointsTimer.stop(); // Zatrzymaj timer
+                          }
+                        }
+                      });
+                      pointsTimer.start();
                     }
                     clearRowsAndColumns(toVanish);
-
                     if (!canPlaceAnyBlock()) {
                         gameOver = true;
                     }
