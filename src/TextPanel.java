@@ -28,7 +28,9 @@ public class TextPanel{
     public void setFont(String fontName) {
         this.font = new Font(fontName, Font.PLAIN, (int) fontSize);
     }
-
+    public void setColor(Color textColor) {
+      this.textColor = textColor;
+    }
     public void setTextSize(int fontSize) {
         this.fontSize = fontSize;
         updateFontSize();
@@ -40,7 +42,7 @@ public class TextPanel{
     public void setTextPosition(String position){
         this.textPosition = position;
     }
-    private void centerText(Graphics g) {
+    private void centerText(Graphics g,String text) {
         FontMetrics fontMetrics = g.getFontMetrics(font);
         int textWidth = fontMetrics.stringWidth(text);
         int textHeight = fontMetrics.getAscent() - fontMetrics.getDescent();
@@ -75,7 +77,7 @@ public class TextPanel{
         }
 
         if (Objects.equals(textPosition, "CENTER")){
-            centerText(g);
+            centerText(g, this.text);
         }
         g.setFont(font);
         g.setColor(textColor);

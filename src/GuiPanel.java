@@ -9,16 +9,17 @@ import java.util.Vector;
 import static java.lang.Thread.sleep;
 
 public class GuiPanel extends JPanel{
-    boolean debug = true;
+    boolean debug = false;
     int pixelSize = 40;
     private final Map map;
     private Block movingBlock = null;
     private final Vector<BlockChoosePanel> blockChoosePanels;
     private final Vector<TextPanel> textsPanels;
+    private TextPanel gameOverPanel;
     private Vector2f mousePosition;
     private boolean isMousePressed =false;
     private boolean showBlockShadow = false;
-    public boolean gameOver = false;
+    public boolean gameOver = true;
     public boolean placed = false;
     Vector2f indexes;
     int points =0;
@@ -178,26 +179,29 @@ public class GuiPanel extends JPanel{
                         gameOver = true;
                     }
                 }
-                if (gameOver) {
-                    for (var row : map.mapRepresentation) {
-                      for (var cell : row) {
-                        cell.value = false;
-                        cell.cellColor = new Color(255, 255, 255, 0);
-                      }
-                    }
-                    for (var panel : blockChoosePanels) {
-                        panel.drawRandomBlokc();
-                    }
-                    points=0;
-                }
                 repaint();
             }
         });
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (debug) {
+                if (debug || gameOver) {
                     if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                      if (gameOver){
+                        for (var row : map.mapRepresentation) {
+                          for (var cell : row) {
+                            cell.value = false;
+                            cell.cellColor = new Color(255, 255, 255, 0);
+                          }
+                        }
+                        for (var panel : blockChoosePanels) {
+                          panel.drawRandomBlokc();
+                        }
+                        points=0;
+                        String text =  ""+ points;
+                        textsPanels.elementAt(1).changeText(text);
+                      }
+                      gameOver = false;
                         for (BlockChoosePanel panel : blockChoosePanels) {
                             panel.drawRandomBlokc();
                         }
@@ -309,6 +313,9 @@ public class GuiPanel extends JPanel{
     public void addTextPanel(TextPanel panel){
         textsPanels.add(panel);
     }
+    public void addGameOverPanel(TextPanel panel){
+      gameOverPanel = panel;
+    }
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -362,6 +369,9 @@ public class GuiPanel extends JPanel{
             Vector2f pivot = movingBlock.getBlockCenter();
             movingBlock.position = new Vector2f(mousePosition.x- pivot.x/2, mousePosition.y- pivot.y/2);
             movingBlock.paint(g);
+        }
+        if (gameOver){
+          gameOverPanel.paint(g);
         }
         repaint();
     }

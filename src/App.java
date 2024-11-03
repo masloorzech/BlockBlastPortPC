@@ -38,7 +38,10 @@ public class App {
         TextPanel scorePanel = new TextPanel("0",of,new Vector2f(pixelSize*3,pixelSize));
         scorePanel.setTextSize(pixelSize/2);
         scorePanel.setTextPosition("CENTER");
-
+        TextPanel gameOverPanel = new TextPanel("PRESS ENTER TO START GAME", new Vector2f(screenCenter.x-mapWidth*pixelSize/2,screenCenter.y-pixelSize*mapHeight/2 - 2*pixelSize),new Vector2f(pixelSize*mapWidth,pixelSize*mapHeight));
+        gameOverPanel.setTextSize(pixelSize/2);
+        gameOverPanel.setColor(new Color(163, 217, 255));
+        gameOverPanel.setTextPosition("CENTER");
         GuiPanel mapPanel = new GuiPanel(map);
         mapPanel.setGradientColor(new Color(75, 126, 159));
         mapPanel.setBackgroundColor(new Color(87, 146, 183));
@@ -47,6 +50,7 @@ public class App {
         mapPanel.addPanel(blockChoosePanelRight);
         mapPanel.addTextPanel(scoreTextPanel);
         mapPanel.addTextPanel(scorePanel);
+        mapPanel.addGameOverPanel(gameOverPanel);
         mapPanel.setBounds(0, 0, width, height);
         mainWindow.setLayout(null);
 
