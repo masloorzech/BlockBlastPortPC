@@ -31,7 +31,7 @@ java -jar BlockBlastPortPC.jar
 ## Screenshots
 <img width="624" alt="app0" src="https://github.com/user-attachments/assets/2331fb22-7adb-4c41-a6b0-961ecce7ddaf">
 
-<img width="624" al![App1](https://github.com/user-attachments/assets/4aa6c955-4af8-462b-93fa-85c97477ab82)
+<img width="624" alt="App1" src="https://github.com/user-attachments/assets/4aa6c955-4af8-462b-93fa-85c97477ab82">
 
 <img width="462" alt="app2" src="https://github.com/user-attachments/assets/90c07577-abf2-4b67-8b4b-653fdcaa3c20">
 
