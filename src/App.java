@@ -1,62 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
-
 public class App {
-
-    static int width = 1000;
-    static int height = 1000;
-    static int pixelSize = 40;
-    static int mapWidth = 8;
-    static int mapHeight = 8;
-
-    public static void main(String[] args) {
-        JFrame mainWindow = new JFrame("App");
-        mainWindow.setSize(width, height);
-        mainWindow.setLocationRelativeTo(null);
-        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainWindow.setResizable(false);
-        Vector2f screenCenter = new Vector2f(width/2, height/2);
-        Map map = new Map(new Vector2f(screenCenter.x-mapWidth*pixelSize/2, screenCenter.y-mapHeight*pixelSize/2 - 2* pixelSize),mapWidth, mapHeight,pixelSize);
-        map.setFrameColors(new Color(87, 146, 183),new Color(75, 126, 159));
-        map.setBackgroundColor(new Color(87, 146, 183));
-        map.setStrokes(10,4);
-        map.setGridColor(new Color(100, 174, 224));
-        BlockChoosePanel blockChoosePanelLeft = new BlockChoosePanel(new Vector2f(screenCenter.x-mapWidth*pixelSize/2, screenCenter.y+mapHeight*pixelSize/2-pixelSize), new Vector2f(3,3),30);
-        blockChoosePanelLeft.setFrameColor(Color.white);
-        blockChoosePanelLeft.setBlockScalingFactor(0.90F);
-        BlockChoosePanel blockChoosePanelCenter = new BlockChoosePanel(new Vector2f(screenCenter.x-mapWidth*pixelSize/2 + 3*pixelSize, screenCenter.y+mapHeight*pixelSize/2-pixelSize), new Vector2f(3,3),30);
-        blockChoosePanelCenter.setFrameColor(Color.white);
-        blockChoosePanelCenter.setBlockScalingFactor(0.90F);
-        BlockChoosePanel blockChoosePanelRight = new BlockChoosePanel(new Vector2f(screenCenter.x-mapWidth*pixelSize/2 + 6*pixelSize, screenCenter.y+mapHeight*pixelSize/2-pixelSize), new Vector2f(3,3),30);
-        blockChoosePanelRight.setFrameColor(Color.white);
-        blockChoosePanelRight.setBlockScalingFactor(0.90F);
-        Vector2f of = new Vector2f(screenCenter.x-mapWidth*pixelSize/2 + pixelSize*2.5f, screenCenter.y-mapHeight*pixelSize/2 - 4* pixelSize);
-        TextPanel scoreTextPanel = new TextPanel("SCORE",new Vector2f(of.x,of.y-pixelSize),new Vector2f(pixelSize*3, pixelSize));
-        scoreTextPanel.setTextSize(pixelSize/2);
-        scoreTextPanel.setTextPosition("CENTER");
-        TextPanel scorePanel = new TextPanel("0",of,new Vector2f(pixelSize*3,pixelSize));
-        scorePanel.setTextSize(pixelSize/2);
-        scorePanel.setTextPosition("CENTER");
-        TextPanel gameOverPanel = new TextPanel("PRESS ENTER TO START GAME", new Vector2f(screenCenter.x-mapWidth*pixelSize/2,screenCenter.y-pixelSize*mapHeight/2 - 2*pixelSize),new Vector2f(pixelSize*mapWidth,pixelSize*mapHeight));
-        gameOverPanel.setTextSize(pixelSize/2);
-        gameOverPanel.setColor(new Color(163, 217, 255));
-        gameOverPanel.setTextPosition("CENTER");
-        GuiPanel mapPanel = new GuiPanel(map);
-        mapPanel.setGradientColor(new Color(75, 126, 159));
-        mapPanel.setBackgroundColor(new Color(87, 146, 183));
-        mapPanel.addPanel(blockChoosePanelLeft);
-        mapPanel.addPanel(blockChoosePanelCenter);
-        mapPanel.addPanel(blockChoosePanelRight);
-        mapPanel.addTextPanel(scoreTextPanel);
-        mapPanel.addTextPanel(scorePanel);
-        mapPanel.addGameOverPanel(gameOverPanel);
-        mapPanel.setBounds(0, 0, width, height);
-        mainWindow.setLayout(null);
-
-        mainWindow.add(mapPanel);
-
-        mainWindow.setVisible(true);
-    }
+  public static void main(String[] args) {
+    JFrame mainWindow = GameWindow.createWindow();
+    GameInitializer.initializeComponents(mainWindow);
+    mainWindow.setVisible(true);
+  }
 }
 
