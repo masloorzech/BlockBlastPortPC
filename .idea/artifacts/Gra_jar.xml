@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Gra:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Gra_jar</output-path>
+    <root id="archive" name="Gra.jar">
+      <element id="module-output" name="Gra" />
+    </root>
+  </artifact>
+</component>
